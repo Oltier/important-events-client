@@ -32,7 +32,7 @@ export class EventEditComponent implements OnInit {
       this.event = new ImportantEvent(tmpEvent.title, momentDate.toISOString(), tmpEvent.location, tmpEvent.note);
       this.datePickerModel = {
         year: momentDate.year(),
-        month: momentDate.month(),
+        month: momentDate.month() + 1,
         day: momentDate.date()
       };
     } else {
@@ -52,7 +52,7 @@ export class EventEditComponent implements OnInit {
     const values = form.form.value;
     const title = values.title;
     const location = values.location;
-    const date = moment(values.date);
+    const date = moment(values.date).add(-1, 'month');
     const note = values.note || '';
 
 
