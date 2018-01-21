@@ -28,8 +28,8 @@ export class EventsService {
     return this.http.post(`${this.apiUrl}`, event, httpOptions).toPromise();
   }
 
-  updateEvent(event: ImportantEvent): Promise<Object> {
-    return this.http.patch(`${this.apiUrl}/${event.id}`, event, httpOptions).toPromise();
+  updateEvent(id: string, event: ImportantEvent): Promise<Object> {
+    return this.http.patch(`${this.apiUrl}/${id}`, event, httpOptions).toPromise();
   }
 
   getStatistics(): Promise<Statistics> {

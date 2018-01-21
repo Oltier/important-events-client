@@ -34,13 +34,13 @@
 
       <div class="form-group">
         <div class="input-group">
-          <input class="form-control" placeholder="yyyy-mm-dd" name="date" id="date" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" required
+          <input class="form-control" placeholder="yyyy-mm-dd" name="date" id="date" [(ngModel)]="datePickerModel" ngbDatepicker #datePicker="ngbDatepicker" required
                  #date="ngModel"
                  [class.is-invalid]="date.invalid && (date.dirty || date.touched)"
                  [class.is-valid]="date.valid"
           >
           <div class="input-group-append">
-            <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+            <button class="btn btn-outline-secondary" (click)="datePicker.toggle()" type="button">
               <em class="fa fa-calendar"></em>
             </button>
           </div>

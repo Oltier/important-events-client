@@ -22,6 +22,10 @@ const routes: Routes = [
   {
     path: 'events/add',
     component: EventEditComponent
+  },
+  {
+    path: 'events/edit/:objectId',
+    component: EventEditComponent
   }
 ];
 

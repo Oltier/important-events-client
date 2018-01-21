@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ImportantEvent} from "../important-event";
 import {EventsService} from "../events.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import moment = require("moment");
 
 @Component({
@@ -13,14 +13,32 @@ export class EventEditComponent implements OnInit {
 
   event: ImportantEvent;
   error: string;
+  datePickerModel: Object;
+  editing: boolean;
+  id: string;
 
   constructor(
     private eventService: EventsService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
-  ngOnInit() {
-    this.event = new ImportantEvent('','','','');
+  async ngOnInit() {
+    this.id = this.route.snapshot.paramMap.get('objectId');
+    if(this.id) {
+      this.editing = true;
+      const tmpEvent = await this.eventService.getEvent(this.id);
+      const momentDate = moment(tmpEvent.date);
+      this.event = new ImportantEvent(tmpEvent.title, momentDate.toISOString(), tmpEvent.location, tmpEvent.note);
+      this.datePickerModel = {
+        year: momentDate.year(),
+        month: momentDate.month(),
+        day: momentDate.date()
+      };
+    } else {
+      this.editing = false;
+      this.event = new ImportantEvent('','','','');
+    }
     this.error = ''
   }
 
@@ -37,15 +55,26 @@ export class EventEditComponent implements OnInit {
     const date = moment(values.date);
     const note = values.note || '';
 
-    this.event = new ImportantEvent(title, date.toISOString(), location, note);
 
-    this.eventService.addEvent(this.event)
-      .then((response) => {
-        this.router.navigate(['/events']);
-      })
-      .catch((err) => {
-        this.error = `There was an error: ${err.status} ${err.statusText}.`;
-      });
+    if(this.editing) {
+      this.event = new ImportantEvent(title, date.toISOString(), location, note);
+      this.eventService.updateEvent(this.id, this.event)
+        .then(() => {
+          this.router.navigate(['/events']);
+        })
+        .catch((err) => {
+          this.error = `There was an error: ${err.status} ${err.statusText}.`;
+        });
+    } else {
+      this.event = new ImportantEvent(title, date.toISOString(), location, note);
+      this.eventService.addEvent(this.event)
+        .then(() => {
+          this.router.navigate(['/events']);
+        })
+        .catch((err) => {
+          this.error = `There was an error: ${err.status} ${err.statusText}.`;
+        });
+    }
   }
 
 }
