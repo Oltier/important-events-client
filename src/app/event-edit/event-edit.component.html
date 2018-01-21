@@ -1,28 +1,64 @@
-<div class="container">
-  <div class="col-md-5">
-    <div class="form-area">
-      <form (submit)="submit(eventForm)" #eventForm="ngForm" role="form">
-        <br style="clear:both">
-        <h3 style="margin-bottom: 25px; text-align: center;">Contact Form</h3>
-        <div class="form-group">
-          <input type="text" class="form-control" id="name" name="name" placeholder="Name" required>
-        </div>
-        <div class="form-group">
-          <input type="text" class="form-control" id="email" name="email" placeholder="Email" required>
-        </div>
-        <div class="form-group">
-          <input type="text" class="form-control" id="mobile" name="mobile" placeholder="Mobile Number" required>
-        </div>
-        <div class="form-group">
-          <input type="text" class="form-control" id="subject" name="subject" placeholder="Subject" required>
-        </div>
-        <div class="form-group">
-          <textarea class="form-control" type="textarea" id="message" placeholder="Message" maxlength="140" rows="7"></textarea>
-          <span class="help-block"><p id="characterLeft" class="help-block ">You have reached the limit</p></span>
-        </div>
+<div class="container col-md-10 col-md-offset-1 mt-5">
+  <div class="form-area">
+    <form (ngSubmit)="onSubmit(eventForm)" #eventForm="ngForm">
+      <h3 class="text-center mb-25">Add a new event</h3>
+      <div class="form-group">
+        <input
+          type="text"
+          class="form-control"
+          id="title"
+          name="title"
+          placeholder="Title"
+          [(ngModel)]="event.title"
+          required
+          #title="ngModel"
+          [class.is-invalid]="title.invalid && (title.dirty || title.touched)"
+          [class.is-valid]="title.valid"
+        >
+      </div>
+      <div class="invalid-event mb-2" *ngIf="title.invalid && title.errors.required">
+        Please provide an event title!
+      </div>
 
-        <button type="button" id="submit" name="submit" class="btn btn-primary pull-right">Submit Form</button>
-      </form>
-    </div>
+      <div class="form-group">
+        <input type="text" class="form-control" id="location" name="location" placeholder="Location"
+               [(ngModel)]="event.location"
+               #location="ngModel"
+               [class.is-invalid]="location.invalid && (location.dirty || location.touched)"
+               [class.is-valid]="location.valid"
+               required>
+      </div>
+      <div class="invalid-event mb-2" *ngIf="location.invalid && location.errors.required">
+        Please provide an event location!
+      </div>
+
+      <div class="form-group">
+        <div class="input-group">
+          <input class="form-control" placeholder="yyyy-mm-dd" name="date" id="date" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" required
+                 #date="ngModel"
+                 [class.is-invalid]="date.invalid && (date.dirty || date.touched)"
+                 [class.is-valid]="date.valid"
+          >
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+              <em class="fa fa-calendar"></em>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="invalid-event mb-2" *ngIf="location.invalid && location.errors.required">
+        Please select a date!
+      </div>
+
+      <div class="form-group">
+        <textarea class="form-control" type="textarea" id="note" name="note" placeholder="Note" rows="7"
+                  [(ngModel)]="event.note"
+                  #note="ngModel"
+        ></textarea>
+      </div>
+
+      <button [disabled]="!eventForm.valid" type="submit" id="submit" name="submit" class="btn btn-success pull-right">Submit</button>
+    </form>
   </div>
 </div>
+<p>{{error}}</p>

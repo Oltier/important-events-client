@@ -4,6 +4,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RoutingModule } from "./routing/routing.module";
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from "@angular/common/http";
+import {NgbDatepickerModule} from "@ng-bootstrap/ng-bootstrap";
 
 import {EventsService} from "./events.service";
 
@@ -12,6 +13,7 @@ import { EventMainComponent } from './event-main/event-main.component';
 import { EventAboutComponent } from './event-about/event-about.component';
 import { EventListComponent } from './event-list/event-list.component';
 import { EventEditComponent } from './event-edit/event-edit.component';
+import { DatepickerPopupComponent } from './datepicker-popup/datepicker-popup.component';
 
 
 @NgModule({
@@ -20,11 +22,13 @@ import { EventEditComponent } from './event-edit/event-edit.component';
     EventMainComponent,
     EventAboutComponent,
     EventListComponent,
-    EventEditComponent
+    EventEditComponent,
+    DatepickerPopupComponent,
   ],
   imports: [
+    NgbDatepickerModule,
     BrowserModule,
-    NgbModule,
+    NgbModule.forRoot(),
     RoutingModule,
     FormsModule,
     HttpClientModule
